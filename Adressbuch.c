@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define stelle = 1
+#define stelle 0
 struct Person ()
 struct Adress ()
 void hinzufuegen(char[],char[])
@@ -15,23 +15,23 @@ int main (int argc , char* argv[])
 
 struct Person ()
 {
-	char * name ;
-	name = mailloc(1+sizeof(*name)),
+	char [] name ;
 	
 	free(name);
 }p1;
 struct Adress (char[]){
-	char * adresse,
-	adresse = mailloc(sizeof(*adresse),
+	char [] adresse;
 	free(adresse)																																																		
 }a1;
 
-void hinzufuegen (char[] name,char[] adress){
-	int i;
-	p1.name[stelle];
+void hinzufuegen (char[] namet,char[] adresset){
+	p1.name[stelle] = namet ;
+	a1.adresse[stelle] = adresset;
 	stelle ++;
-	a1.adresse[stelle];
+	name = mailloc(1+sizeof(*name));
+	adresse = mailloc(1+sizeof(*adresse);
 }
 
 void ausgeben (){
+
 }
