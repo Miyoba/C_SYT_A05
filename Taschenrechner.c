@@ -7,11 +7,11 @@ int subtraktion(int,int);
 int division(int,int);
 int multiplikation(int,int);
 
-int(*fup)(int,int);
+int(*fup[4])(int,int);
 /*
-Ein Programm das die Eigenschaften einer Kugel berechnet mittels eingaben
+Ein Programm das die Grundfunktionen eines Taschenrechners besitzt
 @Author: Wolfgang Mair
-@Version: 2013-10-08
+@Version: 2013-10-18
 */
 int main(int argc, char* argv[])
 {
@@ -19,6 +19,11 @@ int main(int argc, char* argv[])
 	char zeichen;
 	int erg = 0;
 	int zahl1,zahl2;
+	*fup = addition;
+	*(fup+1) = subtraktion;
+	*(fup+2) = division;
+	*(fup+3) = multiplikation;
+	
 	/*Eine Schleife die überprüft ob die Eingabe akzeptabel war*/
 	do
 	{
@@ -48,8 +53,6 @@ int main(int argc, char* argv[])
 					break;
 				}
 				
-				fup = addition;
-				
 				printf("\nAdditions ergebnis = %d\n",(*fup)(zahl1,zahl2));
 				break;
 				
@@ -73,9 +76,7 @@ int main(int argc, char* argv[])
 					break;
 				}
 				
-				fup = subtraktion;
-				
-				printf("\nSubtraktions ergebnis = %d\n",(*fup)(zahl1,zahl2));
+				printf("\nSubtraktions ergebnis = %d\n",(*(fup+1))(zahl1,zahl2));
 				break;
 				
 			case '/':
@@ -98,9 +99,11 @@ int main(int argc, char* argv[])
 					break;
 				}
 				
-				fup = division;
-				
-				printf("\nDivisions ergebnis = %d\n",(*fup)(zahl1,zahl2));
+				if(zahl2 == 0)
+					printf("\nDivision durch 0!\n");
+				else
+					printf("\nDivisions ergebnis = %d\n",(*(fup+2))(zahl1,zahl2));
+					
 				break;
 				
 			case '*':
@@ -123,9 +126,7 @@ int main(int argc, char* argv[])
 					break;
 				}
 				
-				fup = multiplikation;
-				
-				printf("\n Multiplikations ergebnis = %d\n",(*fup)(zahl1,zahl2));
+				printf("\nMultiplikations ergebnis = %d\n",(*(fup+3))(zahl1,zahl2));
 				break;
 					
 			default:
