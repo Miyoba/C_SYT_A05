@@ -1,37 +1,69 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define stelle 0
-struct Person ()
-struct Adress ()
-void hinzufuegen(char[],char[])
-void ausgeben()
+#define stellep 0
+#define stellea 0
+
+void hinzufuegen(char[] *pointer,char[] *pointer);
+void ausgeben();
 
 
 int main (int argc , char* argv[])
 {
+	  char textn[30];
+	  char *pointern;
+	  char texta[30];
+	  char *pointera;
 	  printf("Geben sie einen Personennamen ein");
-	  scanf("%c",&z);
+	  scanf("%c",textn);
+	  printf("Geben sie einen Adresse ein");
+	  scanf("%c",texta);
+	  
+	  
 }
 
-struct Person ()
+typedef struct
 {
-	char [] name ;
-	
+	char n [];
+	char * name ;
+	name = n;
+	name = mailloc(sizeof(*name));
 	free(name);
-}p1;
-struct Adress (char[]){
-	char [] adresse;
+}person;
+typedef struct{
+	char a [];
+	char * adresse;
+	adresse = a;
+	name = malloc(sizeof(*adresse));
 	free(adresse)																																																		
-}a1;
+}adress;
 
 void hinzufuegen (char[] namet,char[] adresset){
-	p1.name[stelle] = namet ;
-	a1.adresse[stelle] = adresset;
-	stelle ++;
-	name = mailloc(1+sizeof(*name));
-	adresse = mailloc(1+sizeof(*adresse);
+	person p1;
+	adress a1;
+	int i;
+	size_t ln;
+	ln = strlen(namet);
+	size_t la;
+	la = strlen(adresset);
+	for(i=0;i<la;i++){
+		p1.name [stellep] = namet[i] ;
+		p1.name = malloc(1+sizeof(*name));
+		stellep++;
+	}
+		a1.adresse [stellea] = adresset[];
+		a1.adresse = malloc(1+sizeof(*adresse);
+		stellea++;
+	}
 }
 
 void ausgeben (){
-
+	person p1;
+	adress a1;
+	int i;
+	for(i=0; i<stellep; i++){
+		printf("%c",p1.name[i]);
+		}
+	for(i=0; i<stellep; i++){
+		printf("%c",a1.adresse[i]);
+	}
 }
