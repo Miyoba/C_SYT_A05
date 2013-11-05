@@ -1,69 +1,197 @@
+/*Adressbuch*/
 #include <stdio.h>
 #include <stdlib.h>
-#define stellep 0
-#define stellea 0
 
-void hinzufuegen(char[] *pointer,char[] *pointer);
-void ausgeben();
-
-
-int main (int argc , char* argv[])
+/* Structs Person und Adress*/
+typedef struct
 {
-	  char textn[30];
-	  char *pointern;
-	  char texta[30];
-	  char *pointera;
-	  printf("Geben sie einen Personennamen ein");
-	  scanf("%c",textn);
-	  printf("Geben sie einen Adresse ein");
-	  scanf("%c",texta);
-	  
-	  
-}
+	char name[100];
+}person;
 
 typedef struct
 {
-	char n [];
-	char * name ;
-	name = n;
-	name = mailloc(sizeof(*name));
-	free(name);
-}person;
-typedef struct{
-	char a [];
-	char * adresse;
-	adresse = a;
-	name = malloc(sizeof(*adresse));
-	free(adresse)																																																		
+	char adr[100];																																											
 }adress;
 
-void hinzufuegen (char[] namet,char[] adresset){
-	person p1;
-	adress a1;
+/*Prototypen*/
+person pHinzufuegen (char namet[]);
+adress aHinzufuegen (char adresset[]);
+void ausgeben (int stelle, person* p, adress* a);
+person* pLoeschen(int index, person* p, int stelle);
+adress* aLoeschen(int index, adress* a, int stelle);
+
+/*
+Ein Programm das Personen und deren Adressen speichert , sie zurückgeben kann und bestimmte
+Eintraege loeschen kann
+@Author: Wolfgang Mair,Vogt Andreas
+@Version: 2013-05-11
+*/
+int main (int argc , char* argv[])
+{
+	/*Attribute Deklarieren*/
+	int stelle = 0;/*Anzahl der Einträge*/
+	char textn[100];
+	char texta[100];
+	int eingabe = 0;
+	int loeschen;
+	int fehler;
+	
+	person* p = NULL;/*Pointer für struct*/
+	adress* a = NULL;/*Pointer für struct*/
+	
+	p = (person*)malloc(sizeof(person));
+	a = (adress*)malloc(sizeof(adress));
+	
+	
+	do
+	{
+		/* Abfrage was das Programm als naechstes machen soll*/
+		printf("Geben sie ein was sie tun wollen:\n0: EXIT\n1: Person und Addresse hinzufuegen.\n2: Ausgeben der Personen und Addressen\n3: Loeschen eines Eintrages\n");
+		scanf("%d",eingabe);
+		switch(eingabe)
+		{
+			/*Falls der Benutzer 1 eingibt kann er eine Person und seine Addresse eingeben welche
+			gespeichert wird*/
+			case 1: 
+		
+				printf("Geben sie einen Personennamen ein");
+				fehler = scanf("%s",textn);
+				if(fehler == 0){
+					printf("Fehler beim Einlesen");
+					break;
+				}
+				printf("Geben sie einen Adresse ein");
+				fehler = scanf("%s",texta);
+				if(fehler == 0){
+					printf("Fehler beim Einlesen");
+					break;
+				}
+				
+				/*Dynamisch die Groeße der Speicherreservierung erhoehen*/
+				p = (person*) realloc(p,sizeof(person)*(stelle+1));
+				/*Ueberpruefung des Speicherplatzes*/
+				if(p == NULL){
+					printf("Not enough Memory!");
+					break;
+				}	
+				a = (adress*) realloc(a,sizeof(adress)*(stelle+1));
+				if(a == NULL){
+					printf("Not enough Memory!");
+					break;
+				}
+				
+				*(p+stelle) = pHinzufuegen (textn);/* Fügt den text in das Array*/
+				*(a+stelle) = aHinzufuegen (texta);
+				stelle++;
+				break;
+			
+			/* Bei 2 gibt er den inhalt von person und adress aus*/
+			case 2:	
+			
+				ausgeben(stelle,p,a);
+				break;
+			
+			/*Bei 3 loescht er dem jeweiligen Personenname + Adresse aus dem Array*/
+			case 3: 
+				printf("Geben sie einen Index ein");
+				fehler = scanf("%d",loeschen);
+				if(fehler == 0 || loeschen < 0 || loeschen > stelle){
+					printf("Fehler beim loeschen falscher Index");
+					break;
+				}
+				p = pLoeschen(loeschen,p);
+				a = aLoeschen(loeschen,a);
+				stelle--;
+				break;
+			
+			/*Falls nichts oder etwas falsches eingegeben wird bricht er das Programm ab*/
+			default:
+			
+				eingabe = 0;
+				printf("Bye!");
+				break;
+		}
+			
+	}while(eingabe != 0);
+	
+	/*Gibt den reservierten speicherplatz wieder frei*/
+	free(p);
+	free(a);
+	p = NULL;
+	a = NULL;
+	return EXIT_SUCCESS;
+  
+}
+
+/* Fuegt den Personennamen in das Adressbuch ein*/
+person pHinzufuegen (char namet[]){
 	int i;
-	size_t ln;
-	ln = strlen(namet);
-	size_t la;
-	la = strlen(adresset);
-	for(i=0;i<la;i++){
-		p1.name [stellep] = namet[i] ;
-		p1.name = malloc(1+sizeof(*name));
-		stellep++;
+	person p;
+	for(i=0;i<100;i++){
+		p.name[i] = namet[i];
 	}
-		a1.adresse [stellea] = adresset[];
-		a1.adresse = malloc(1+sizeof(*adresse);
-		stellea++;
+	return p;
+}
+
+/* Fuegt den Personennamen in das Adressbuch ein*/
+adress aHinzufuegen (char adresset[]){	
+	int i;
+	adress a;
+	for(i=0;i<100;i++){
+		a.adr[i]  = adresset[i];
+	}
+	return a;
+}
+
+/*Gibt alles was im Adressbuch gespeichert aus */
+void ausgeben (int stelle, person* p, adress* a){
+	
+	int i,z;
+	for(i=0; i<stelle; i++){
+		for(z=0; z<100;z++){
+			printf("%c",p[i].name[z]);
+		}
+		for(z=0; z<100;z++){
+			printf("%c",a[i].adr[z]);
+		}
+		printf("\n");
 	}
 }
 
-void ausgeben (){
-	person p1;
-	adress a1;
+/*Loescht den Namen aus einer bestimmten stelle raus*/
+person* pLoeschen(int index, person* p, int stelle){
 	int i;
-	for(i=0; i<stellep; i++){
-		printf("%c",p1.name[i]);
-		}
-	for(i=0; i<stellep; i++){
-		printf("%c",a1.adresse[i]);
+	person* ptemp = NULL;
+	ptemp = (person*) malloc(sizeof(person)*stelle);
+	
+	if(ptemp == NULL){
+		printf("Not enough Memory!");
+		return p;
+	}	
+	
+	for(i = 0; i<stelle;i++){
+		if(i!= index)
+			ptemp[i] = p[i];
 	}
+	p = ptemp;
+	return p;
+}
+
+/*Loescht die Adresse aus einer bestimmten Stelle raus*/
+adress* aLoeschen(int index, adress* a, int stelle){
+	int i;
+	adress* atemp = NULL;
+	atemp = (adress*) malloc(sizeof(adress)*stelle);
+	
+	if(atemp == NULL){
+		printf("Not enough Memory!");
+		return a;
+	}	
+	
+	for(i = 0; i<stelle;i++){
+		if(i!= index)
+			atemp[i] = a[i];
+	}
+	a = atemp;
+	return a;
 }
