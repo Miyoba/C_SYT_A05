@@ -14,21 +14,25 @@ typedef struct
 person pHinzufuegen (char namet[]);
 adress aHinzufuegen (char adresset[]);
 void ausgeben (int stelle, person* p, adress* a);
-person* pLoeschen(int index, person* p);
-adress* aLoeschen(int index, adress* a);
+person* pLoeschen(int index, person* p, int stelle);
+adress* aLoeschen(int index, adress* a, int stelle);
 
 int main (int argc , char* argv[])
 {
-
-	person* p;
-	adress* a;
-
 	int stelle = 0;
 	char textn[100];
 	char texta[100];
 	int eingabe = 0;
 	int loeschen;
 	int fehler;
+	
+	person* p = NULL;
+	adress* a = NULL;
+	
+	p = (person*)malloc(sizeof(person));
+	a = (adress*)malloc(sizeof(adress));
+	
+	
 	do
 	{
 		printf("Geben sie ein was sie tun wollen:\n0: EXIT\n1: Person und Addresse hinzufuegen.\n2: Ausgeben der Personen und Addressen\n3: Loeschen eines Eintrages\n");
@@ -51,7 +55,15 @@ int main (int argc , char* argv[])
 				}
 				
 				p = (person*) realloc(p,sizeof(person)+sizeof(p));
+				if(p == NULL){
+					printf("Not enough Memory!");
+					break;
+				}	
 				a = (adress*) realloc(a,sizeof(adress)+sizeof(a));
+				if(a == NULL){
+					printf("Not enough Memory!");
+					break;
+				}
 				
 				*(p+stelle) = pHinzufuegen (textn);
 				*(a+stelle) = aHinzufuegen (texta);
@@ -82,7 +94,12 @@ int main (int argc , char* argv[])
 		}
 			
 	}while(eingabe != 0);
-
+	
+	
+	free(p);
+	free(a);
+	p = NULL;
+	a = NULL;
 	return EXIT_SUCCESS;
   
 }
@@ -119,12 +136,17 @@ void ausgeben (int stelle, person* p, adress* a){
 	}
 }
 
-person* pLoeschen(int index, person* p){
+person* pLoeschen(int index, person* p, int stelle){
 	int i;
-	person* ptemp;
-	ptemp = (person*) realloc(ptemp,sizeof(p)-sizeof(person));
+	person* ptemp = NULL;
+	ptemp = (person*) malloc(sizeof(p)-sizeof(person));
 	
-	for(i = 0; i<(sizeof(p)/sizeof(person));i++){
+	if(ptemp == NULL){
+		printf("Not enough Memory!");
+		return p;
+	}	
+	
+	for(i = 0; i<stelle;i++){
 		if(i!= index)
 			ptemp[i] = p[i];
 	}
@@ -132,12 +154,17 @@ person* pLoeschen(int index, person* p){
 	return p;
 }
 	
-adress* aLoeschen(int index, adress* a){
+adress* aLoeschen(int index, adress* a, int stelle){
 	int i;
-	adress* atemp;
-	atemp = (adress*) realloc(atemp,sizeof(a)-sizeof(adress));
+	adress* atemp = NULL;
+	atemp = (adress*) malloc(sizeof(a)-sizeof(adress));
 	
-	for(i = 0; i<(sizeof(a)/sizeof(person));i++){
+	if(atemp == NULL){
+		printf("Not enough Memory!");
+		return a;
+	}	
+	
+	for(i = 0; i<stelle;i++){
 		if(i!= index)
 			atemp[i] = a[i];
 	}
