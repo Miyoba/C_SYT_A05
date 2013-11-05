@@ -1,6 +1,8 @@
+/*Adressbuch*/
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Structs Person und Adress*/
 typedef struct
 {
 	char name[100];
@@ -10,20 +12,26 @@ typedef struct
 {
 	char adr[100];																																											
 }adress;
-
+/*Prototypen*/
 person pHinzufuegen (char namet[]);
 adress aHinzufuegen (char adresset[]);
 void ausgeben (int stelle, person* p, adress* a);
 person* pLoeschen(int index, person* p);
 adress* aLoeschen(int index, adress* a);
 
+/*
+Ein Programm das Personen und deren Adressen speichert , sie zurückgeben kann und bestimmte
+Einträge löschen kann
+@Author: Wolfgang Mair,Vogt Andreas
+@Version: 2013-05-11
+*/
 int main (int argc , char* argv[])
 {
+	/*Attribute Deklarieren*/
+	person* p;/*Pointer für struct*/
+	adress* a;/*Pointer für struct*/
 
-	person* p;
-	adress* a;
-
-	int stelle = 0;
+	int stelle = 0;/*Stelle an dem sich die pointer befinden*/
 	char textn[100];
 	char texta[100];
 	int eingabe = 0;
@@ -31,10 +39,13 @@ int main (int argc , char* argv[])
 	int fehler;
 	do
 	{
+		/* Abfrage was das Programm als nächstes machen soll*/
 		printf("Geben sie ein was sie tun wollen:\n0: EXIT\n1: Person und Addresse hinzufuegen.\n2: Ausgeben der Personen und Addressen\n3: Loeschen eines Eintrages\n");
 		scanf("%d",eingabe);
 		switch(eingabe)
 		{
+			/*Falls der Benutzer 1 eingibt kann er eine Person und seine Addresse eingeben welche
+			gespeichert wird*/
 			case 1: 
 		
 				printf("Geben sie einen Personennamen ein");
@@ -50,19 +61,19 @@ int main (int argc , char* argv[])
 					break;
 				}
 				
-				p = (person*) realloc(p,sizeof(person)+sizeof(p));
+				p = (person*) realloc(p,sizeof(person)+sizeof(p));/*Dynamisch die Größe der Speicherreservierung erhöhen*/
 				a = (adress*) realloc(a,sizeof(adress)+sizeof(a));
 				
-				*(p+stelle) = pHinzufuegen (textn);
+				*(p+stelle) = pHinzufuegen (textn);/* Fügt den text in das Array*/
 				*(a+stelle) = aHinzufuegen (texta);
 				stelle++;
 				break;
-			
+			/* Bei 2 gibt er den inhalt von person und adress aus*/
 			case 2:	
 			
 				ausgeben(stelle,p,a);
 				break;
-			
+			/*Bei 3 löscht er dem jeweiligen Personenname + Adresse aus dem Array*/
 			case 3: 
 				printf("Geben sie einen Index ein");
 				fehler = scanf("%d",loeschen);
@@ -73,7 +84,7 @@ int main (int argc , char* argv[])
 				p = pLoeschen(loeschen,p);
 				a = aLoeschen(loeschen,a);
 				break;
-				
+			/*Falls nichts oder etwas falsches eingegeben wird bricht er das Programm ab*/
 			default:
 			
 				eingabe = 0;
@@ -86,7 +97,7 @@ int main (int argc , char* argv[])
 	return EXIT_SUCCESS;
   
 }
-
+/* Fügt den Personennamen in das Adressbuch ein*/
 person pHinzufuegen (char namet[]){
 	int i;
 	person p;
@@ -95,7 +106,7 @@ person pHinzufuegen (char namet[]){
 	}
 	return p;
 }
-
+/* Fügt den Personennamen in das Adressbuch ein*/
 adress aHinzufuegen (char adresset[]){	
 	int i;
 	adress a;
@@ -104,7 +115,7 @@ adress aHinzufuegen (char adresset[]){
 	}
 	return a;
 }
-
+/*Gibt alles was im Adressbuch gespeichert aus */
 void ausgeben (int stelle, person* p, adress* a){
 	
 	int i,z;
@@ -118,11 +129,11 @@ void ausgeben (int stelle, person* p, adress* a){
 		printf("\n");
 	}
 }
-
+/*Löscht den Namen aus einer bestimmten stelle raus*/
 person* pLoeschen(int index, person* p){
 	int i;
 	person* ptemp;
-	ptemp = (person*) realloc(ptemp,sizeof(p)-sizeof(person));
+	ptemp = (person*) realloc(ptemp,sizeof(p)-sizeof(person));/* Dynamisch verkleinern*/
 	
 	for(i = 0; i<(sizeof(p)/sizeof(person));i++){
 		if(i!= index)
@@ -131,7 +142,7 @@ person* pLoeschen(int index, person* p){
 	p = ptemp;
 	return p;
 }
-	
+/*löscht die Adresse aus einer bestimmten Stelle raus*/
 adress* aLoeschen(int index, adress* a){
 	int i;
 	adress* atemp;
