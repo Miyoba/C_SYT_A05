@@ -111,7 +111,7 @@ int main (int argc , char* argv[])
 				printf("Bye!");
 				break;
 		}
-			
+	/*Die Abfrage wird solange wiederholt bis entweder 0 oder etwas anderes eingegeben (außer 1-3) eingegeben wurde		
 	}while(eingabe != 0);
 	
 	/*Gibt den reservierten speicherplatz wieder frei*/
