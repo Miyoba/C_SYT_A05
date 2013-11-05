@@ -1,30 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void hinzufuegen(char* namet[], char* adresset[]);
-void ausgeben (int stelle, person* p, adress* a);
-
 typedef struct
 {
-	char n[100];
-	char* name;
+	char name[100];
 	int anz;
-	name = n;
-	name = mailloc(sizeof(*name));
-	free(name);
 }person;
 
 typedef struct{
-	char a[100];
-	char* adresse;
-	int anz;
-	adresse = a;
-	name = malloc(sizeof(*adresse));
-	free(adresse);																																																		
+	char adr[100];
+	int anz;																																											
 }adress;
+
+person pHinzufuegen (char namet[],int anzN);
+adress aHinzufuegen (char adresset[], int anzA);
+void ausgeben (int stelle, person* p, adress* a);
 
 int main (int argc , char* argv[])
 {
+
 	person* p;
 	adress* a;
 
@@ -33,31 +27,63 @@ int main (int argc , char* argv[])
 	char texta[100];
 	int anzN;
 	int anzA;
-	
-	printf("Geben sie einen Personennamen ein");
-	anzN = scanf("%s",textn);
-	printf("Geben sie einen Adresse ein");
-	anzA = scanf("%s",texta);
-	  
-	  
+	int eingabe = 0;
+
+	do
+	{
+		printf("Geben sie ein was sie tun wollen:\n0: EXIT\n1: Person und Addresse hinzufuegen.\n2: Ausgeben der Personen und Addressen\n");
+		scanf("%d",eingabe);
+		switch(eingabe)
+		{
+			case 1: 
+		
+				printf("Geben sie einen Personennamen ein");
+				anzN = scanf("%s",textn);
+				printf("Geben sie einen Adresse ein");
+				anzA = scanf("%s",texta);
+				
+				p = (person*) realloc(p,sizeof(person)+sizeof(p));
+				a = (adress*) realloc(a,sizeof(adress)+sizeof(a));
+				
+				*(p+stelle) = pHinzufuegen (textn,anzN);
+				*(a+stelle) = aHinzufuegen (texta,anzA);
+				stelle++;
+				break;
+			
+			case 2:	
+			
+				ausgeben(stelle,p,a);
+				break;
+			
+			default:
+			
+				eingabe = 0;
+				printf("Bye!");
+				break;
+		}
+			
+	}while(eingabe != 0);
+
+	return EXIT_SUCCESS;
+  
 }
 
-void hinzufuegen (char* namet[],char* adresset[]){
-	p = realloc(p,1+sizeof(person));
+person pHinzufuegen (char namet[],int anzN){
 	int i;
-	size_t ln;
-	ln = strlen(namet);
-	size_t la;
-	la = strlen(adresset);
-	for(i=0;i<ln;i++){
-		p[stelle].name[i] = namet[i] ;
-		p[stelle].name = malloc(1+sizeof(*name));
+	person p;
+	for(i=0;i<anzN;i++){
+		p.name[i] = namet[i];
 	}
-	for(i=0;i<la;i++){
-		a[stelle].adresse[i]  = adresset[i];
-		a[stelle].adresse = malloc(1+sizeof(*adresse);
+	return p;
+}
+
+adress aHinzufuegen (char adresset[], int anzA){	
+	int i;
+	adress a;
+	for(i=0;i<anzA;i++){
+		a.adr[i]  = adresset[i];
 	}
-	stelle++;
+	return a;
 }
 
 void ausgeben (int stelle, person* p, adress* a){
@@ -68,7 +94,7 @@ void ausgeben (int stelle, person* p, adress* a){
 			printf("%c",p[i].name[z]);
 		}
 		for(z=0; z<p[i].anz;z++){
-			printf("%c",a[i].adresse[z]);
+			printf("%c",a[i].adr[z]);
 		}
 		printf("\n");
 	}
