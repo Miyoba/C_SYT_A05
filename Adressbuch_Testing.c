@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 void hinzufuegen(char* namet[], char* adresset[]);
-void ausgeben();
+void ausgeben (int stelle, person* p, adress* a);
 
 typedef struct
 {
@@ -60,13 +60,14 @@ void hinzufuegen (char* namet[],char* adresset[]){
 	stelle++;
 }
 
-void ausgeben (){
-
-	for(int i=0; i<stelle; i++){
-		for(int z=0; z<p[i].anz;z++){
+void ausgeben (int stelle, person* p, adress* a){
+	
+	int i,z;
+	for(i=0; i<stelle; i++){
+		for(z=0; z<p[i].anz;z++){
 			printf("%c",p[i].name[z]);
 		}
-		for(int z=0; z<p[i].anz;z++){
+		for(z=0; z<p[i].anz;z++){
 			printf("%c",a[i].adresse[z]);
 		}
 		printf("\n");
